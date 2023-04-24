@@ -19,87 +19,54 @@
 
 
 ## Эксперименты:
+Провели эксперименты на 9 треках:
 
+tracks = 3, random_range = 10, skip_percent = 0
 
-количество объектов
-tracks_amount = 1
+![alt text](tracks/3_10_0.png)
 
-на сколько пикселей рамка объектов может ложно смещаться (эмуляция не идеальной детекции)
-random_range = 10
+tracks = 3, random_range = 10, skip_percent = 25
 
-с какой вероятностью объект на фрейме может быть не найдет детектором
-bb_skip_percent = 0
+![alt text](tracks/3_10_25.png)
 
-Метрика:
+tracks = 3, random_range = 25, skip_percent = 0
 
-Track: k=0 max_occur_value=0 amount_of_entrance=46 1.0\
-Overall: 1.00
-______________________________________________
+![alt text](tracks/3_25_0.png)
 
-количество объектов
-tracks_amount = 3
+tracks = 5, random_range = 10, skip_percent = 0
 
-на сколько пикселей рамка объектов может ложно смещаться (эмуляция не идеальной детекции)
-random_range = 10
+![alt text](tracks/5_10_0.png)
 
-с какой вероятностью объект на фрейме может быть не найдет детектором
-bb_skip_percent = 0
+tracks = 5, random_range = 10, skip_percent = 25
 
-Метрика:
+![alt text](tracks/5_10_25.png)
 
-Track: k=0 max_occur_value=0 amount_of_entrance=42 1.0\
-Track: k=1 max_occur_value=1 amount_of_entrance=31 1.0\
-Track: k=2 max_occur_value=2 amount_of_entrance=34 1.0\
-Overall: 1.00
+tracks = 5, random_range = 25, skip_percent = 0
 
-______________________________________________
+![alt text](tracks/5_25_0.png)
 
+tracks = 10, random_range = 10, skip_percent = 0
 
-количество объектов
-tracks_amount = 10
+![alt text](tracks/10_10_0.png)
 
-на сколько пикселей рамка объектов может ложно смещаться (эмуляция не идеальной детекции)
-random_range = 10
+tracks = 10, random_range = 10, skip_percent = 25
 
-с какой вероятностью объект на фрейме может быть не найдет детектором
-bb_skip_percent = 0
+![alt text](tracks/10_10_25.png)
 
-Метрика:
+tracks = 10, random_range = 25, skip_percent = 0
 
-Track: k=0 max_occur_value=7 amount_of_entrance=20 0.9090909090909091\
-Track: k=1 max_occur_value=4 amount_of_entrance=18 0.6206896551724138\
-Track: k=2 max_occur_value=8 amount_of_entrance=24 0.6153846153846154\
-Track: k=3 max_occur_value=6 amount_of_entrance=19 0.5588235294117647\
-Track: k=4 max_occur_value=4 amount_of_entrance=20 0.6451612903225806\
-Track: k=5 max_occur_value=8 amount_of_entrance=8 0.4\
-Track: k=6 max_occur_value=4 amount_of_entrance=27 0.75\
-Track: k=7 max_occur_value=7 amount_of_entrance=13 0.6190476190476191\
-Track: k=8 max_occur_value=4 amount_of_entrance=28 0.5957446808510638\
-Track: k=9 max_occur_value=8 amount_of_entrance=12 0.5714285714285714\
-Overall: 0.63
+![alt text](tracks/10_25_0.png)
 
-______________________________________________
+## Таблица
 
-
-количество объектов
-tracks_amount = 10
-
-на сколько пикселей рамка объектов может ложно смещаться (эмуляция не идеальной детекции)
-random_range = 10
-
-с какой вероятностью объект на фрейме может быть не найдет детектором
-bb_skip_percent = .25
-
-Метрика:
-
-Track: k=0 max_occur_value=0 amount_of_entrance=19 0.7916666666666666\
-Track: k=1 max_occur_value=0 amount_of_entrance=24 0.5581395348837209\
-Track: k=2 max_occur_value=0 amount_of_entrance=17 0.6538461538461539\
-Track: k=3 max_occur_value=0 amount_of_entrance=36 0.8571428571428571\
-Track: k=4 max_occur_value=0 amount_of_entrance=22 0.6470588235294118\
-Track: k=5 max_occur_value=0 amount_of_entrance=31 0.6326530612244898\
-Track: k=6 max_occur_value=0 amount_of_entrance=19 0.8260869565217391\
-Track: k=7 max_occur_value=0 amount_of_entrance=40 0.8333333333333334\
-Track: k=8 max_occur_value=0 amount_of_entrance=26 0.7647058823529411\
-Track: k=9 max_occur_value=0 amount_of_entrance=14 0.56\
-Overall: 0.71
+| Tracks amount | Random range | Skip Percent | Result hungarian | Result hungarian + kalman |
+|---------------|--------------|--------------|------------------|---------------------------|
+| 3             | 10           | 0            | 0                | 0                         |
+| 3             | 10           | 25           | 0                | 0                         |
+| 3             | 25           | 0            | 0                | 0                         |
+| 5             | 10           | 0            | 0                | 0                         |
+| 5             | 10           | 25           | 0                | 0                         |
+| 5             | 25           | 0            | 0                | 0                         |
+| 10            | 10           | 0            | 0                | 0                         |
+| 10            | 10           | 25           | 0                | 0                         |
+| 10            | 25           | 0            | 0                | 0                         |

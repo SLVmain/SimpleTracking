@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 # количество объектов
 tracks_amount = 3
 # на сколько пикселей рамка объектов может ложно смещаться (эмуляция не идеальной детекции)
-random_range = 10
+random_range = 25
 # с какой вероятностью объект на фрейме может быть не найдет детектором
-bb_skip_percent = .1
+bb_skip_percent = 0
 
 width = 1000
 height = 800
@@ -100,7 +100,12 @@ while i < tracks_amount:
         plt.plot(np.linspace(x[0], x[-1]), fun(np.linspace(x[0], x[-1]), *coef), '*-')
         tracks = add_track_to_tracks(track, tracks, i)
         i += 1
-plt.show()
+plt.savefig(f"tracks/{tracks_amount}_{random_range}_{int(bb_skip_percent*100)}.png")
+
+with open(f'track_{tracks_amount}_{random_range}_{int(bb_skip_percent*100)}.py', 'w') as f:
+    f.write(f'#{tracks_amount}-{random_range}-{bb_skip_percent} \n')
+    f.write(f"country_balls_amount = {tracks_amount} \n")
+    f.write(f'track_data = {tracks}')
 
 print(f'country_balls_amount = {tracks_amount}')
 print(f'track_data = {tracks}')
