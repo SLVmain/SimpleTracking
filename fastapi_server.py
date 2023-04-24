@@ -3,6 +3,8 @@ from track_7 import track_data, country_balls_amount
 from collections import Counter
 import asyncio
 import glob
+from utils import extract_boxes, from_tracker
+from simple_tracker import SimpleTracker
 
 app = FastAPI(title='Tracker assignment')
 imgs = glob.glob('imgs/*')
@@ -10,7 +12,7 @@ country_balls = [{'cb_id': x, 'img': imgs[x % len(imgs)]} for x in range(country
 id_obj_track_list = {}
 tracked_list = []
 print('Started')
-
+simple_tracker = SimpleTracker()
 def get_distance(point1, point2):
     return ((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2) ** 0.5
 
@@ -98,6 +100,26 @@ def tracker_strong(el):
     и по координатам вырезать необходимые регионы.
     TODO: Ужасный костыль, на следующий поток поправить
     """
+    if el['frame_id'] == 1:
+        # mapping elements like (index_tracker, index_service)
+        mapping, boxes = extract_boxes(el['data'])
+        simple_tracker.initialize(boxes)
+        el['data'] = from_tracker(el['data'], simple_tracker.previous_state, mapping)
+        return el
+
+    mapping, boxes = extract_boxes(el['data'])
+    if len(boxes) == 0:  # 0 non-empty boxes
+        return el
+    simple_tracker.get_iou(boxes)
+    matches, unmatched_detections, unmatched_trackers = simple_tracker.estimate_hungarian()
+    new_state = simple_tracker.update_states(boxes, matches, unmatched_detections)
+
+    for cb in new_state:
+        bbox_cb = cb['bbox'].tolist()
+        for i, cb_service in enumerate(el['data']):
+            if bbox_cb == cb_service['bounding_box']:
+                el['data'][i]['track_id'] = cb['track_id']
+
     return el
 
 def make_track_for_obj(el):
@@ -134,11 +156,12 @@ async def websocket_endpoint(websocket: WebSocket):
     for el in track_data:
         await asyncio.sleep(0.5)
         # TODO: part 1
-        el = tracker_soft(el)
+        #el = tracker_soft(el)
         tracked_list.append(el)
         #print(el)
         # TODO: part 2
-        # el = tracker_strong(el)
+        el = tracker_strong(el)
+        tracked_list.append(el)
         # отправка информации по фрейму
         await websocket.send_json(el)
         make_track_for_obj(el)
