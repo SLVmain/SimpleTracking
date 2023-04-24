@@ -8,7 +8,7 @@ tracks_amount = 3
 # на сколько пикселей рамка объектов может ложно смещаться (эмуляция не идеальной детекции)
 random_range = 10
 # с какой вероятностью объект на фрейме может быть не найдет детектором
-bb_skip_percent = 0
+bb_skip_percent = .1
 
 width = 1000
 height = 800
@@ -66,13 +66,13 @@ def add_track_to_tracks(track, tracks, id):
                             ]
         if i < len(tracks):
             tracks[i]['data'].append({'cb_id': id, 'bounding_box': bounding_box,
-                                      'x': p['x'], 'y': p['y'], 'track_id': 1})
+                                      'x': p['x'], 'y': p['y'], 'track_id': None})
         else:
             tracks.append(
                 {
                     'frame_id': len(tracks)+1,
                     'data': [{'cb_id': id, 'bounding_box': bounding_box,
-                              'x': p['x'], 'y': p['y'], 'track_id': 2}]
+                              'x': p['x'], 'y': p['y'], 'track_id': None}]
                 }
             )
     return tracks

@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.optimize import linear_sum_assignment
+from kalman import Kalman
 
 eps = 1e-6
 iou_thrd = 0.2
@@ -14,12 +15,14 @@ class SimpleTracker:
 		#  ...]
 		self.previous_state = []
 		self.previous_state_boxes = None
+		self.kalman_info = []
 
 	def initialize(self, data: np.ndarray):
 		self.previous_state_boxes = data
 		for i in range(data.shape[0]):
 			self.previous_state.append({"track_id": self.max_index, "bbox": data[i]})
 			self.max_index += 1
+
 
 	def update_states(self, boxes, matches, unmatched_detections):
 		self.previous_state_boxes = []

@@ -1,10 +1,11 @@
 from fastapi import FastAPI, WebSocket
-from track_7 import track_data, country_balls_amount
+from track_8 import track_data, country_balls_amount
 from collections import Counter
 import asyncio
 import glob
 from utils import extract_boxes, from_tracker
 from simple_tracker import SimpleTracker
+from sort_tracker import SortTracker
 
 app = FastAPI(title='Tracker assignment')
 imgs = glob.glob('imgs/*')
@@ -13,6 +14,7 @@ id_obj_track_list = {}
 tracked_list = []
 print('Started')
 simple_tracker = SimpleTracker()
+sort_tracker = SortTracker()
 def get_distance(point1, point2):
     return ((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2) ** 0.5
 
@@ -100,6 +102,17 @@ def tracker_strong(el):
     и по координатам вырезать необходимые регионы.
     TODO: Ужасный костыль, на следующий поток поправить
     """
+    mapping, boxes = extract_boxes(el['data'])
+    new_state = sort_tracker.predict(boxes)
+
+    for cb in new_state:
+        bbox_cb = cb['bbox']
+        for i, cb_service in enumerate(el['data']):
+            if bbox_cb.tolist() == cb_service['bounding_box']:
+                el['data'][i]['track_id'] = cb['track_id']
+
+
+    """
     if el['frame_id'] == 1:
         # mapping elements like (index_tracker, index_service)
         mapping, boxes = extract_boxes(el['data'])
@@ -119,7 +132,7 @@ def tracker_strong(el):
         for i, cb_service in enumerate(el['data']):
             if bbox_cb == cb_service['bounding_box']:
                 el['data'][i]['track_id'] = cb['track_id']
-
+    """
     return el
 
 def make_track_for_obj(el):
@@ -157,7 +170,7 @@ async def websocket_endpoint(websocket: WebSocket):
         await asyncio.sleep(0.5)
         # TODO: part 1
         #el = tracker_soft(el)
-        tracked_list.append(el)
+        #tracked_list.append(el)
         #print(el)
         # TODO: part 2
         el = tracker_strong(el)
