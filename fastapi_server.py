@@ -1,6 +1,7 @@
 from fastapi import FastAPI, WebSocket
 from track_7 import track_data, country_balls_amount
 from collections import Counter
+from hungarian_algorithm import algorithm
 import asyncio
 import glob
 
@@ -65,7 +66,6 @@ def tracker_soft(el):
                 if pr_obj['center']:
                     dist = get_distance(pr_obj['center'], cr_obj['center'])
                     elem = (dist, pr_obj['track_id'])
-                    # print(elem)
                     distans_list.append(elem)
 
         if distans_list:
