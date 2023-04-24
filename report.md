@@ -2,6 +2,7 @@
 
 Команда: Сбитнева Людмила, Гринкевич Павел
 
+## TRACKER SOFT
 
 ### Трекер построен на основе центроидов и евклидова расстояния между ними.
 
@@ -103,3 +104,5 @@ Track: k=7 max_occur_value=0 amount_of_entrance=40 0.8333333333333334\
 Track: k=8 max_occur_value=0 amount_of_entrance=26 0.7647058823529411\
 Track: k=9 max_occur_value=0 amount_of_entrance=14 0.56\
 Overall: 0.71
+
+

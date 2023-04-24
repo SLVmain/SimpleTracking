@@ -1,7 +1,6 @@
 from fastapi import FastAPI, WebSocket
-from track_7 import track_data, country_balls_amount
+from track_8 import track_data, country_balls_amount
 from collections import Counter
-from hungarian_algorithm import algorithm
 import asyncio
 import glob
 from utils import extract_boxes, from_tracker
@@ -157,7 +156,7 @@ async def websocket_endpoint(websocket: WebSocket):
         await asyncio.sleep(0.5)
         # TODO: part 1
         #el = tracker_soft(el)
-        tracked_list.append(el)
+        #tracked_list.append(el)
         #print(el)
         # TODO: part 2
         el = tracker_strong(el)
