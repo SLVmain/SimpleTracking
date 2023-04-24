@@ -1,5 +1,5 @@
 from fastapi import FastAPI, WebSocket
-from track_8 import track_data, country_balls_amount
+from track_10_25_0 import track_data, country_balls_amount
 from collections import Counter
 import asyncio
 import glob
@@ -82,26 +82,6 @@ def tracker_soft(el):
 
 
 def tracker_strong(el):
-    """
-    Необходимо изменить у каждого словаря в списке значение поля 'track_id' так,
-    чтобы как можно более длительный период времени 'track_id' соответствовал
-    одному и тому же кантри болу.
-
-    Исходные данные: координаты рамки объектов, скриншоты прогона
-
-    Ограничения:
-    - вы можете использовать любые доступные подходы, за исключением
-    откровенно читерных, как например захардкодить заранее правильные значения
-    'track_id' и т.п.
-    - значение по ключу 'cb_id' является служебным, служит для подсчета метрик качества
-    вашего трекера, использовать его в алгоритме трекера запрещено
-    - запрещается присваивать один и тот же track_id разным объектам на одном фрейме
-
-    P.S.: если вам нужны сами фреймы, измените в index.html значение make_screenshot
-    на true для первого прогона, на повторном прогоне можете читать фреймы из папки
-    и по координатам вырезать необходимые регионы.
-    TODO: Ужасный костыль, на следующий поток поправить
-    """
     mapping, boxes = extract_boxes(el['data'])
     new_state = sort_tracker.predict(boxes)
 
@@ -111,28 +91,6 @@ def tracker_strong(el):
             if bbox_cb.tolist() == cb_service['bounding_box']:
                 el['data'][i]['track_id'] = cb['track_id']
 
-
-    """
-    if el['frame_id'] == 1:
-        # mapping elements like (index_tracker, index_service)
-        mapping, boxes = extract_boxes(el['data'])
-        simple_tracker.initialize(boxes)
-        el['data'] = from_tracker(el['data'], simple_tracker.previous_state, mapping)
-        return el
-
-    mapping, boxes = extract_boxes(el['data'])
-    if len(boxes) == 0:  # 0 non-empty boxes
-        return el
-    simple_tracker.get_iou(boxes)
-    matches, unmatched_detections, unmatched_trackers = simple_tracker.estimate_hungarian()
-    new_state = simple_tracker.update_states(boxes, matches, unmatched_detections)
-
-    for cb in new_state:
-        bbox_cb = cb['bbox'].tolist()
-        for i, cb_service in enumerate(el['data']):
-            if bbox_cb == cb_service['bounding_box']:
-                el['data'][i]['track_id'] = cb['track_id']
-    """
     return el
 
 def make_track_for_obj(el):
